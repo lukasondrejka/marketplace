@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,12 +16,35 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Home
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
+
+// User
+Route::get('user/{id}', [UserController::class, 'show'])
+    ->name('users.profile');
+
+Route::middleware([Authenticate::class])->group(function () {
+    Route::get('profile', [UserController::class, 'showProfile'])
+        ->name('users.profile');
+
+    Route::get('profile/edit', [UserController::class, 'edit'])
+        ->name('users.edit');
+
+    Route::post('profile/edit', [UserController::class, 'update'])
+        ->name('users.update');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
+Route::get('items', function () {
+    return view('items/items');
+})->name('items.item');
+
+Route::get('item', function () {
+    return view('items/item');
+})->name('items.item');
+
+Route::get('create-item', function () {
+    return view('items/item-form');
+})->name('items.item-form');
 require __DIR__.'/auth.php';
