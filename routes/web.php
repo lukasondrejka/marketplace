@@ -13,12 +13,24 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+// Home
+Route::get('/', [HomeController::class, 'index'])
+    ->name('home');
+
+// User
+Route::get('user/{id}', [UserController::class, 'show'])
+    ->name('users.profile');
+
+Route::middleware([Authenticate::class])->group(function () {
+    Route::get('profile', [UserController::class, 'showProfile'])
+        ->name('users.profile');
+
+    Route::get('profile/edit', [UserController::class, 'edit'])
+        ->name('users.edit');
+
+    Route::post('profile/edit', [UserController::class, 'update'])
+        ->name('users.update');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
