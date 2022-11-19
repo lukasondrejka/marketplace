@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,4 +36,15 @@ Route::middleware([Authenticate::class])->group(function () {
 });
 
 
+Route::get('items', function () {
+    return view('items/items');
+})->name('items.item');
+
+Route::get('item', function () {
+    return view('items/item');
+})->name('items.item');
+
+Route::get('create-item', function () {
+    return view('items/item-form');
+})->name('items.item-form');
 require __DIR__.'/auth.php';
