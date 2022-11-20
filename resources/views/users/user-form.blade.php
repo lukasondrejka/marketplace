@@ -2,6 +2,7 @@
 
 @php
     $contactsCount = 4;
+    $i = 0;
 @endphp
 
 <x-app-layout>
