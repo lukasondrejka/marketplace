@@ -15,11 +15,13 @@
 
                 <div class="mt-3">
                     <label for="name" class="form-label">{{ __('Name') }}</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $user->name) }}" >
+                    <input type="text" class="form-control {{ $errors->has('name') ? 'is-invalid' : '' }}" id="name" name="name" value="{{ old('name', $user->name) }}" >
+                    @error('name')
+                    <div class="invalid-feedback">
+                        {{ $message }}
+                    </div>
+                    @enderror
                 </div>
-                @error('name')
-                <div class="alert alert-danger mt-2">{{ $message }}</div>
-                @enderror
 
                 <h5 class="mt-4 mb-3">{{ __('Contacts') }}</h5>
                 <div id="contacts-block">
@@ -30,7 +32,7 @@
 
                 <div class="row mt-3">
                     <div class="col">
-                        <button id="addContactButton" type="button" class="btn btn-success mb-3" {{ $i + 1 == $contactsCount ? 'disabled' : '' }}>
+                        <button id="addContactButton" type="button" class="btn btn-success mb-3" {{ $i + 1 === $contactsCount ? 'disabled' : '' }}>
                             Add phone number
                         </button>
                     </div>
